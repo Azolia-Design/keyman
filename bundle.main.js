@@ -78956,6 +78956,9 @@ imagesLoaded.makeJQueryPlugin((jquery_default()));
 gsapWithCSS.registerPlugin(ScrollTrigger); //////////////////////// INIT SCROLL SMOOTH ///////////////////
 
 function initSmoothScroll() {
+  var header = jquery_default()('header');
+  var navToggle = jquery_default()('#navToggle');
+  var nav = jquery_default()('nav');
   var locoScroll = new locomotive_scroll_esm({
     el: document.querySelector('.scrollmain'),
     smooth: true,
@@ -78968,6 +78971,17 @@ function initSmoothScroll() {
     smartphone: {
       smooth: false
     }
+  });
+  locoScroll.on("scroll", ScrollTrigger.update);
+  locoScroll.on('scroll', function (instance) {
+    if (instance.scroll.y > header.outerHeight() / 2) {
+      header.addClass('scroll');
+    } else if (instance.scroll.y < header.height() / 2) {
+      header.removeClass('scroll');
+    }
+  });
+  navToggle.on("click", function () {
+    nav.toggleClass("active");
   });
   setTimeout(function () {
     locoScroll.update();
