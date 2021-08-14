@@ -78957,9 +78957,12 @@ gsapWithCSS.registerPlugin(ScrollTrigger); //////////////////////// INIT SCROLL 
 
 function initSmoothScroll() {
   var header = jquery_default()('header');
+  var soundIcon = jquery_default()('.sound-icon');
   var navToggle = jquery_default()('#navToggle');
   var nav = jquery_default()('nav');
   var signupToggle = jquery_default()('#signupToggle');
+  var signupToggleMobile = jquery_default()('#signupToggleMobile');
+  var signupToggleAbout = jquery_default()('#signupToggleAbout');
   var popupSignup = jquery_default()('#popupSignup');
   var closeSignup = jquery_default()('#closeSignup');
   var aboutItem1 = jquery_default()('.about_item.--first');
@@ -78973,7 +78976,7 @@ function initSmoothScroll() {
   var popup4 = jquery_default()('#about-4');
   var popupClose = jquery_default()('.popup-info .ic-close');
   var locoScroll = new locomotive_scroll_esm({
-    el: document.querySelector('.scrollmain'),
+    el: document.querySelector('[data-scroll-container]'),
     smooth: true,
     lerp: 0.1,
     getDirection: true,
@@ -78982,8 +78985,15 @@ function initSmoothScroll() {
       smooth: true
     },
     smartphone: {
-      smooth: true
-    }
+      smooth: false
+    },
+    "class": 'is-inview'
+  });
+  var target = document.querySelector('#product');
+  var links = jquery_default()('li .link');
+  links.on("click", function () {
+    jquery_default()(this).addClass('active').siblings().removeClass('active');
+    locoScroll.scrollTo(target);
   });
   locoScroll.on("scroll", ScrollTrigger.update);
   locoScroll.on('scroll', function (instance) {
@@ -79013,10 +79023,19 @@ function initSmoothScroll() {
   scrollToSection();
 
   function toggles() {
+    soundIcon.on("click", function () {
+      soundIcon.toggleClass("disabled");
+    });
     navToggle.on("click", function () {
       nav.toggleClass("active");
     });
     signupToggle.on("click", function () {
+      popupSignup.addClass("active");
+    });
+    signupToggleMobile.on("click", function () {
+      popupSignup.addClass("active");
+    });
+    signupToggleAbout.on("click", function () {
       popupSignup.addClass("active");
     });
     closeSignup.on("click", function () {
@@ -79046,7 +79065,7 @@ function initSmoothScroll() {
   toggles();
   setTimeout(function () {
     locoScroll.update();
-  }, 1600);
+  }, 200);
 }
 
 ;
