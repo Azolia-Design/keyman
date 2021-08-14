@@ -78956,7 +78956,9 @@ imagesLoaded.makeJQueryPlugin((jquery_default()));
 gsapWithCSS.registerPlugin(ScrollTrigger); //////////////////////// INIT SCROLL SMOOTH ///////////////////
 
 function initSmoothScroll() {
+  var scrollMain = jquery_default()('.scrollmain');
   var header = jquery_default()('header');
+  var links = jquery_default()('.menu li .link');
   var soundIcon = jquery_default()('.sound-icon');
   var navToggle = jquery_default()('#navToggle');
   var nav = jquery_default()('nav');
@@ -78989,20 +78991,80 @@ function initSmoothScroll() {
     },
     "class": 'is-inview'
   });
-  var target = document.querySelector('#product');
-  var links = jquery_default()('li .link');
-  links.on("click", function () {
-    jquery_default()(this).addClass('active').siblings().removeClass('active');
-    locoScroll.scrollTo(target);
-  });
+  var activeSection, target, sections;
   locoScroll.on("scroll", ScrollTrigger.update);
   locoScroll.on('scroll', function (instance) {
     if (instance.scroll.y > header.outerHeight() / 2) {
       header.addClass('scroll');
     } else if (instance.scroll.y < header.height() / 2) {
       header.removeClass('scroll');
-    }
+    } // sections = document.querySelectorAll('[data-scroll-section-inview]')
+    // activeSection = sections[sections.length - 1].dataset.name
+    // if (activeSection) {
+    // 	target = $('header .menu li .link').find('[href="#' + activeSection + '"]')
+    // 	target.siblings('.link').removeClass('active')
+    // 	target.addClass('active')
+    // }
+
   });
+  window.addEventListener("DOMContentLoaded", function (event) {
+    var audio = document.querySelector("audio");
+    audio.volume = 0.2;
+    audio.play();
+  });
+
+  function animateHero() {
+    var loader = document.querySelector('.page-loading');
+    var logo = document.querySelectorAll('.page-loading__logo');
+    var text = document.querySelectorAll('.page-loading__text');
+    var tlLoadingPage = gsapWithCSS.timeline({
+      scrollTrigger: {
+        trigger: loader,
+        scroller: scrollMain,
+        toggleActions: "play none none pause"
+      }
+    });
+    tlLoadingPage.to(logo, {
+      opacity: 1,
+      duration: 1.2
+    }).to(logo, {
+      opacity: 1,
+      duration: .6
+    }).to(logo, {
+      opacity: 0,
+      duration: 1.2
+    }).to(text, {
+      opacity: 1,
+      duration: 1.2
+    }).to(text, {
+      opacity: 1,
+      duration: .6
+    }).to(text, {
+      opacity: 0,
+      duration: 1.2
+    }).to(loader, {
+      opacity: 0,
+      duration: 1.2
+    });
+  }
+
+  ;
+  animateHero();
+
+  function loadingScreen() {
+    var loader = document.querySelector('.page-loading');
+    gsapWithCSS.set(loader, {
+      opacity: 0,
+      visibility: 'hidden',
+      delay: 7.2,
+      onComplete: function onComplete() {
+        loader.classList.add('is-loaded');
+      }
+    });
+  }
+
+  ;
+  loadingScreen();
   locoScroll.on('scroll', function (instance) {
     if (instance.scroll.y > nav.outerHeight() / 2) {
       nav.addClass('scroll');
@@ -79011,20 +79073,33 @@ function initSmoothScroll() {
     }
   });
 
-  function scrollToSection() {
-    var links = jquery_default()('header ul li a');
-    links.click(function () {
-      jquery_default()('header ul li a.active').removeClass('active');
+  function scrollTo() {
+    if (!locoScroll) return;
+    jquery_default()('.link').click(function (e) {
+      e.preventDefault();
+      var target = jquery_default()(this).attr('href');
+      locoScroll.scrollTo(target);
+      links.removeClass('active');
       jquery_default()(this).addClass('active');
     });
   }
 
   ;
-  scrollToSection();
+  scrollTo();
 
   function toggles() {
     soundIcon.on("click", function () {
-      soundIcon.toggleClass("disabled");
+      var audio = document.querySelector("audio"); //soundIcon.toggleClass("disabled");
+
+      if (soundIcon.hasClass("disabled")) {
+        soundIcon.removeClass("disabled");
+        audio.play();
+      } else {
+        soundIcon.addClass("disabled");
+        audio.pause();
+      }
+
+      ;
     });
     navToggle.on("click", function () {
       nav.toggleClass("active");
