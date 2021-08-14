@@ -78959,6 +78959,19 @@ function initSmoothScroll() {
   var header = jquery_default()('header');
   var navToggle = jquery_default()('#navToggle');
   var nav = jquery_default()('nav');
+  var signupToggle = jquery_default()('#signupToggle');
+  var popupSignup = jquery_default()('#popupSignup');
+  var closeSignup = jquery_default()('#closeSignup');
+  var aboutItem1 = jquery_default()('.about_item.--first');
+  var aboutItem2 = jquery_default()('.about_item.--second');
+  var aboutItem3 = jquery_default()('.about_item.--third');
+  var aboutItem4 = jquery_default()('.about_item.--fourth');
+  var popupAll = jquery_default()('.popup-info');
+  var popup1 = jquery_default()('#about-1');
+  var popup2 = jquery_default()('#about-2');
+  var popup3 = jquery_default()('#about-3');
+  var popup4 = jquery_default()('#about-4');
+  var popupClose = jquery_default()('.popup-info .ic-close');
   var locoScroll = new locomotive_scroll_esm({
     el: document.querySelector('.scrollmain'),
     smooth: true,
@@ -78969,7 +78982,7 @@ function initSmoothScroll() {
       smooth: true
     },
     smartphone: {
-      smooth: false
+      smooth: true
     }
   });
   locoScroll.on("scroll", ScrollTrigger.update);
@@ -78980,9 +78993,57 @@ function initSmoothScroll() {
       header.removeClass('scroll');
     }
   });
-  navToggle.on("click", function () {
-    nav.toggleClass("active");
+  locoScroll.on('scroll', function (instance) {
+    if (instance.scroll.y > nav.outerHeight() / 2) {
+      nav.addClass('scroll');
+    } else if (instance.scroll.y < nav.height() / 2) {
+      nav.removeClass('scroll');
+    }
   });
+
+  function scrollToSection() {
+    var links = jquery_default()('header ul li a');
+    links.click(function () {
+      jquery_default()('header ul li a.active').removeClass('active');
+      jquery_default()(this).addClass('active');
+    });
+  }
+
+  ;
+  scrollToSection();
+
+  function toggles() {
+    navToggle.on("click", function () {
+      nav.toggleClass("active");
+    });
+    signupToggle.on("click", function () {
+      popupSignup.addClass("active");
+    });
+    closeSignup.on("click", function () {
+      popupSignup.removeClass("active");
+    });
+    aboutItem1.on("click", function () {
+      popupAll.removeClass('active');
+      popup1.addClass('active');
+    });
+    aboutItem2.on("click", function () {
+      popupAll.removeClass('active');
+      popup2.addClass('active');
+    });
+    aboutItem3.on("click", function () {
+      popupAll.removeClass('active');
+      popup3.addClass('active');
+    });
+    aboutItem4.on("click", function () {
+      popupAll.removeClass('active');
+      popup4.addClass('active');
+    });
+    popupClose.on("click", function () {
+      popupAll.removeClass('active');
+    });
+  }
+
+  toggles();
   setTimeout(function () {
     locoScroll.update();
   }, 1600);
