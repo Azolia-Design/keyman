@@ -79695,6 +79695,7 @@ function initSmoothScroll() {
       popupSignup.removeClass("active");
     });
     signupSubmit.on("click", function () {
+      //$(this).preventDefault()
       popupSignup.removeClass("active");
       setTimeout(function () {
         popupSuccess.addClass("active");
