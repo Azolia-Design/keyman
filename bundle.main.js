@@ -33919,6 +33919,55 @@ function initSmoothScroll() {
       duration: optAniText.duration,
       stagger: optAniText.stagger
     });
+    var scIntro = jquery_default()('.scintro'),
+        introSubHeading = jquery_default()('.scintro .--h5 .char'),
+        introHeading = jquery_default()('.scintro .--h4 .char'),
+        introBody = jquery_default()('.scintro p.--text'),
+        introLogo = jquery_default()('.scintro .content-logo');
+    var tlIntro = gsapWithCSS.timeline({
+      scrollTrigger: {
+        trigger: scIntro,
+        scroller: scrollMain,
+        toggleActions: "play none none none",
+        start: "-80% top"
+      }
+    });
+    tlIntro.from(introSubHeading, {
+      y: optAniText.y,
+      autoAlpha: 0,
+      duration: optAniText.duration,
+      stagger: optAniText.stagger
+    }).from(introHeading, {
+      y: optAniText.y,
+      autoAlpha: 0,
+      duration: optAniText.duration,
+      stagger: optAniText.stagger
+    }, "-=.3").from(introBody, {
+      y: optAniText.y,
+      autoAlpha: 0,
+      duration: 1,
+      stagger: optAniText.stagger
+    }, "-=.6").from(introLogo, {
+      y: optAniText.y,
+      autoAlpha: 0,
+      duration: .6
+    }, "-=.3");
+    var scTesti = jquery_default()('.sctestimonial'),
+        testiHeading = jquery_default()('.sctestimonial .--h2 .char');
+    var tlTesti = gsapWithCSS.timeline({
+      scrollTrigger: {
+        trigger: scTesti,
+        scroller: scrollMain,
+        toggleActions: "play none none none",
+        start: "-50% top"
+      }
+    });
+    tlTesti.from(testiHeading, {
+      y: optAniText.y,
+      autoAlpha: 0,
+      duration: optAniText.duration,
+      stagger: optAniText.stagger
+    });
   }
 
   ;
