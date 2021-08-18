@@ -33770,7 +33770,7 @@ var optAniText = {
 
 function initSmoothScroll() {
   locoScroll = new locomotive_scroll_esm({
-    el: document.querySelector('[data-scroll-container]'),
+    el: document.querySelector('.scrollmain'),
     smooth: true,
     lerp: 0.1,
     getDirection: true,
@@ -33784,7 +33784,7 @@ function initSmoothScroll() {
     "class": 'is-inview'
   });
   locoScroll.on("scroll", ScrollTrigger.update);
-  ScrollTrigger.scrollerProxy("[data-scroll-container]", {
+  ScrollTrigger.scrollerProxy('.scrollmain', {
     scrollTop: function scrollTop(value) {
       return arguments.length ? locoScroll.scrollTo(value, 0, 0) : locoScroll.scroll.instance.scroll.y;
     },
@@ -33797,7 +33797,7 @@ function initSmoothScroll() {
         height: window.innerHeight
       };
     },
-    pinType: document.querySelector("[data-scroll-container]").style.transform ? "transform" : "fixed"
+    pinType: document.querySelector('.scrollmain').style.transform ? "transform" : "fixed"
   });
   locoScroll.on('scroll', function (instance) {
     if (instance.scroll.y > header.outerHeight() / 2) {
@@ -33829,6 +33829,7 @@ function initSmoothScroll() {
 
     ;
     activeSection();
+    gridBgLimit();
   });
   window.addEventListener("DOMContentLoaded", function (event) {
     var audio = document.querySelector("audio");
@@ -33922,7 +33923,7 @@ function initSmoothScroll() {
     var scIntro = jquery_default()('.scintro'),
         introSubHeading = jquery_default()('.scintro .--h5 .char'),
         introHeading = jquery_default()('.scintro .--h4 .char'),
-        introBody = jquery_default()('.scintro p.--text'),
+        introBody = jquery_default()('.scintro .content-bodytext .--text'),
         introLogo = jquery_default()('.scintro .content-logo');
     var tlIntro = gsapWithCSS.timeline({
       scrollTrigger: {
@@ -33967,6 +33968,28 @@ function initSmoothScroll() {
       autoAlpha: 0,
       duration: optAniText.duration,
       stagger: optAniText.stagger
+    });
+    var productWrapper = jquery_default()('#productAnimate'),
+        productPills = jquery_default()('#productPills'),
+        productFeatures = jquery_default()('.product-features');
+    var tlProductAnim = gsapWithCSS.timeline({
+      scrollTrigger: {
+        trigger: productWrapper,
+        scroller: '.scrollmain',
+        start: "-50% top",
+        //scrub: true,
+        // pin: true,
+        ease: "none"
+      }
+    });
+    tlProductAnim.to(productPills, {
+      autoAlpha: 0,
+      duration: 1,
+      y: -300
+    }).from(productFeatures, {
+      autoAlpha: 0,
+      duration: 1,
+      y: 300
     });
   }
 
@@ -34204,7 +34227,13 @@ function initSwiper() {
 jquery_default()(window).on("load resize", function () {
   gridBgLimit();
   initSwiper();
-}).resize();
+}).resize(); // each time the window updates, we should refresh ScrollTrigger and then update LocomotiveScroll. 
+
+ScrollTrigger.addEventListener("refresh", function () {
+  return locoScroll.update();
+}); // after everything is set up, refresh() ScrollTrigger and update LocomotiveScroll because padding may have been added for pinning, etc.
+
+ScrollTrigger.refresh();
 
 if (isMobile()) {
   document.body.classList.add('is-mobile');
