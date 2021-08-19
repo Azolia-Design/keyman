@@ -33891,7 +33891,7 @@ function initSmoothScroll() {
         trigger: scProduct,
         scroller: scrollMain,
         toggleActions: "play none none none",
-        start: "-40% top"
+        start: "-60% top"
       }
     });
     tlProduct.from(productLogo, {
@@ -33903,7 +33903,129 @@ function initSmoothScroll() {
       autoAlpha: 0,
       duration: optAniText.duration,
       stagger: optAniText.stagger
-    }, "-=.3");
+    }, "-=.7");
+    var productPills = jquery_default()('#productpills');
+    var rountBtn = jquery_default()('#feaCta');
+    console.log(productPills.css('transform'));
+    document.addEventListener('mousemove', function (event) {
+      var mouseX = event.clientX;
+      var mouseY = event.clientY;
+      var widthToTranslate = gsapWithCSS.utils.mapRange(0, window.innerWidth, 40, -40);
+      var widthToTranslateBtn = gsapWithCSS.utils.mapRange(0, window.innerWidth, -100, 100);
+      var valueX = widthToTranslate(mouseX);
+      var valueY = widthToTranslate(mouseY);
+      productPills.css('transform', 'translate(' + valueX + 'px,' + valueY + 'px)'); // let valueXBtn = widthToTranslateBtn(mouseX);
+      // let valueYBtn = widthToTranslateBtn(mouseY);
+      // rountBtn.on('mousemove', function(e) {
+      //     rountBtn.css('transform','translate(' + valueXBtn + 'px,' + valueYBtn + 'px)');
+      // })
+      // rountBtn.on('mouseout', function(e) {
+      //     rountBtn.css('transform','none');
+      // })
+      // rountBtn.css('transform','translate(' + valueX + 'px,' + valueY + 'px)');
+    });
+
+    if (jquery_default()(window).width() >= 991) {
+      var productAnim = jquery_default()('#productanim'),
+          pillL1 = jquery_default()('#productpills .pills-box').children('.pill').eq(0),
+          pillL2 = jquery_default()('#productpills .pills-box').children('.pill').eq(1),
+          pillL3 = jquery_default()('#productpills .pills-box').children('.pill').eq(2),
+          pillL4 = jquery_default()('#productpills .pills-box').children('.pill').eq(3),
+          pillR1 = jquery_default()('#productpills .pills-box-right').children('.pill').eq(0),
+          pillR2 = jquery_default()('#productpills .pills-box-right').children('.pill').eq(1),
+          pillR3 = jquery_default()('#productpills .pills-box-right').children('.pill').eq(2),
+          pillR4 = jquery_default()('#productpills .pills-box-right').children('.pill').eq(3),
+          productFeatures = jquery_default()('#productFea'),
+          featureL1 = jquery_default()('#productFea .features-box').children('.feature-item').eq(0),
+          featureL2 = jquery_default()('#productFea .features-box').children('.feature-item').eq(1),
+          featureL3 = jquery_default()('#productFea .features-box').children('.feature-item').eq(2),
+          featureR1 = jquery_default()('#productFea .features-box.--right').children('.feature-item').eq(0),
+          featureR2 = jquery_default()('#productFea .features-box.--right').children('.feature-item').eq(1),
+          featureR3 = jquery_default()('#productFea .features-box.--right').children('.feature-item').eq(2);
+      var tlProductAnim = gsapWithCSS.timeline({
+        scrollTrigger: {
+          trigger: productAnim,
+          scroller: scrollMain,
+          start: "top top",
+          scrub: 1,
+          pin: true //ease: "none"
+
+        }
+      });
+      tlProductAnim.to(pillL1, {
+        ease: "power1.inOut",
+        autoAlpha: 0,
+        duration: 1,
+        y: -280,
+        delay: 0.2
+      }, "0").to(pillL2, {
+        ease: "power1.inOut",
+        autoAlpha: 0,
+        duration: 1.2,
+        y: -330,
+        delay: 0.3
+      }, "0").to(pillL3, {
+        ease: "power1.inOut",
+        autoAlpha: 0,
+        duration: 1.1,
+        y: -350,
+        delay: 0.2
+      }, "0").to(pillL4, {
+        ease: "power1.inOut",
+        autoAlpha: 0,
+        duration: .9,
+        y: -320
+      }, "0").to(pillR1, {
+        ease: "power1.inOut",
+        autoAlpha: 0,
+        duration: .9,
+        y: -340,
+        delay: 0.5
+      }, "0").to(pillR2, {
+        ease: "power1.inOut",
+        autoAlpha: 0,
+        duration: 1,
+        y: -310,
+        delay: 0.3
+      }, "0").to(pillR3, {
+        ease: "power1.inOut",
+        autoAlpha: 0,
+        duration: 1.1,
+        y: -290,
+        delay: 0.1
+      }, "0").to(pillR4, {
+        ease: "power1.inOut",
+        autoAlpha: 0,
+        duration: 1.2,
+        y: -340
+      }, "0").from(featureL1, {
+        autoAlpha: 0,
+        duration: 1,
+        x: -300
+      }).from(featureR1, {
+        autoAlpha: 0,
+        duration: 1,
+        x: 300
+      }, "-=1").from(featureL2, {
+        autoAlpha: 0,
+        duration: 1,
+        x: -300
+      }, "-=.6").from(featureR2, {
+        autoAlpha: 0,
+        duration: 1,
+        x: 300
+      }, "-=1").from(featureL3, {
+        autoAlpha: 0,
+        duration: 1,
+        x: -300
+      }, "-=.6").from(featureR3, {
+        autoAlpha: 0,
+        duration: 1,
+        x: 300
+      }, "-=1");
+    }
+
+    ;
     var scFeature = jquery_default()('.scfeature'),
         featureHeading = jquery_default()('.scfeature .--h1 .char');
     var tlFeature = gsapWithCSS.timeline({
@@ -33923,14 +34045,15 @@ function initSmoothScroll() {
     var scIntro = jquery_default()('.scintro'),
         introSubHeading = jquery_default()('.scintro .--h5 .char'),
         introHeading = jquery_default()('.scintro .--h4 .char'),
-        introBody = jquery_default()('.scintro .content-bodytext .--text'),
+        introBody1 = jquery_default()('.scintro .content-bodytext').children('.--text').eq(0),
+        introBody2 = jquery_default()('.scintro .content-bodytext').children('.--text').eq(1),
         introLogo = jquery_default()('.scintro .content-logo');
     var tlIntro = gsapWithCSS.timeline({
       scrollTrigger: {
         trigger: scIntro,
         scroller: scrollMain,
         toggleActions: "play none none none",
-        start: "-80% top"
+        start: "-50% top"
       }
     });
     tlIntro.from(introSubHeading, {
@@ -33943,16 +34066,19 @@ function initSmoothScroll() {
       autoAlpha: 0,
       duration: optAniText.duration,
       stagger: optAniText.stagger
-    }, "-=.3").from(introBody, {
+    }, "-=.3").from(introBody1, {
       y: optAniText.y,
       autoAlpha: 0,
-      duration: 1,
-      stagger: optAniText.stagger
-    }, "-=.6").from(introLogo, {
+      duration: 1
+    }, "-=.6").from(introBody2, {
+      y: optAniText.y,
+      autoAlpha: 0,
+      duration: 1
+    }, "-=.8").from(introLogo, {
       y: optAniText.y,
       autoAlpha: 0,
       duration: .6
-    }, "-=.3");
+    }, "-=.7");
     var scTesti = jquery_default()('.sctestimonial'),
         testiHeading = jquery_default()('.sctestimonial .--h2 .char');
     var tlTesti = gsapWithCSS.timeline({
@@ -33969,31 +34095,6 @@ function initSmoothScroll() {
       duration: optAniText.duration,
       stagger: optAniText.stagger
     });
-
-    if (jquery_default()(window).width() >= 991) {
-      var productAnim = jquery_default()('#productanim'),
-          productPills = jquery_default()('#productpills'),
-          productFeatures = jquery_default()('#productFea');
-      var tlProductAnim = gsapWithCSS.timeline({
-        scrollTrigger: {
-          trigger: productAnim,
-          scroller: scrollMain,
-          start: "top top",
-          scrub: 1,
-          pin: true,
-          ease: "none"
-        }
-      });
-      tlProductAnim.to(productPills, {
-        autoAlpha: 0,
-        duration: 1,
-        y: -300
-      }).from(productFeatures, {
-        autoAlpha: 0,
-        duration: 1,
-        y: 300
-      });
-    }
   }
 
   ;
