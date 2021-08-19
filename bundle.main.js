@@ -33969,28 +33969,31 @@ function initSmoothScroll() {
       duration: optAniText.duration,
       stagger: optAniText.stagger
     });
-    var productWrapper = jquery_default()('#productAnimate'),
-        productPills = jquery_default()('#productPills'),
-        productFeatures = jquery_default()('.product-features');
-    var tlProductAnim = gsapWithCSS.timeline({
-      scrollTrigger: {
-        trigger: productWrapper,
-        scroller: '.scrollmain',
-        start: "-50% top",
-        //scrub: true,
-        // pin: true,
-        ease: "none"
-      }
-    });
-    tlProductAnim.to(productPills, {
-      autoAlpha: 0,
-      duration: 1,
-      y: -300
-    }).from(productFeatures, {
-      autoAlpha: 0,
-      duration: 1,
-      y: 300
-    });
+
+    if (jquery_default()(window).width() >= 991) {
+      var productAnim = jquery_default()('#productanim'),
+          productPills = jquery_default()('#productpills'),
+          productFeatures = jquery_default()('#productFea');
+      var tlProductAnim = gsapWithCSS.timeline({
+        scrollTrigger: {
+          trigger: productAnim,
+          scroller: scrollMain,
+          start: "top top",
+          scrub: 1,
+          pin: true,
+          ease: "none"
+        }
+      });
+      tlProductAnim.to(productPills, {
+        autoAlpha: 0,
+        duration: 1,
+        y: -300
+      }).from(productFeatures, {
+        autoAlpha: 0,
+        duration: 1,
+        y: 300
+      });
+    }
   }
 
   ;
@@ -34086,6 +34089,10 @@ function initSmoothScroll() {
       loadingScreen();
       setTimeout(function () {
         animateHome();
+        setTimeout(function () {
+          locoScroll.update();
+          gridBgLimit();
+        }, 100);
       }, 7700);
     });
     soundIcon.on("click", function () {
@@ -34163,10 +34170,6 @@ function initSmoothScroll() {
   }
 
   toggles();
-  setTimeout(function () {
-    locoScroll.update();
-    gridBgLimit();
-  }, 200);
 }
 
 ;
