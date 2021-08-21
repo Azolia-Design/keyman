@@ -33774,7 +33774,9 @@ function loadVideoBottle() {
   var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent),
       bottleVid = jquery_default()('.product-bottle-inner'),
       ext = isSafari ? 'mov' : 'webm';
-  bottleVid.html("<video muted playsinline loop id=\"bottleVid\">\n    <source src=\"".concat(URL_THEMES, "/video/bottle-vid.").concat(ext, "\">\n    </video>"));
+  bottleVid.html("<video muted playsinline loop id=\"bottleVid\">\n    <source src=\"./video/bottle-vid.".concat(ext, "\">\n    </video>")); // bottleVid.html(`<video muted playsinline loop id="bottleVid">
+  // <source src="${URL_THEMES}/video/bottle-vid.${ext}">
+  // </video>`)      
 }
 
 ;
