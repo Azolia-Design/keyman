@@ -33750,6 +33750,7 @@ var closeSuccess = jquery_default()('#closeSuccess');
 var successClose = jquery_default()('#successClose');
 var popupSignupInner = jquery_default()('#popupSignupInner');
 var popupSuccessInner = jquery_default()('#popupSuccessInner');
+var featureBtn = jquery_default()('#feaCta');
 var aboutItem1 = jquery_default()('.about_item.--first');
 var aboutItem2 = jquery_default()('.about_item.--second');
 var aboutItem3 = jquery_default()('.about_item.--third');
@@ -33766,7 +33767,18 @@ var optAniText = {
   duration: 0.7,
   durationContent: 0.4,
   y: '40%'
-}; //////////////////////// INIT SCROLL SMOOTH ///////////////////
+};
+var URL_THEMES = window.location.origin; //////////////////////// DETECT VIDEO FOR BROWSER ///////////////////
+
+function loadVideoBottle() {
+  var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent),
+      bottleVid = jquery_default()('.product-bottle-inner'),
+      ext = isSafari ? 'mov' : 'webm';
+  bottleVid.html("<video muted playsinline loop id=\"bottleVid\">\n    <source src=\"".concat(URL_THEMES, "/video/bottle-vid.").concat(ext, "\">\n    </video>"));
+}
+
+;
+loadVideoBottle(); //////////////////////// INIT SCROLL SMOOTH ///////////////////
 
 function initSmoothScroll() {
   locoScroll = new locomotive_scroll_esm({
@@ -33910,7 +33922,7 @@ function initSmoothScroll() {
     document.addEventListener('mousemove', function (event) {
       var mouseX = event.clientX;
       var mouseY = event.clientY;
-      var widthToTranslate = gsapWithCSS.utils.mapRange(0, window.innerWidth, 40, -40);
+      var widthToTranslate = gsapWithCSS.utils.mapRange(0, window.innerWidth, 10, -10);
       var widthToTranslateBtn = gsapWithCSS.utils.mapRange(0, window.innerWidth, -100, 100);
       var valueX = widthToTranslate(mouseX);
       var valueY = widthToTranslate(mouseY);
@@ -33924,6 +33936,20 @@ function initSmoothScroll() {
       // })
       // rountBtn.css('transform','translate(' + valueX + 'px,' + valueY + 'px)');
     });
+
+    function playVideo(el) {
+      var vid = document.getElementById(el);
+      vid.play();
+      console.log('playing video');
+    }
+
+    function pauseVideo(el) {
+      var vid = document.getElementById(el);
+      vid.pause();
+      console.log('pausing video');
+    }
+
+    ;
 
     if (jquery_default()(window).width() >= 991) {
       var productAnim = jquery_default()('#productanim'),
@@ -33948,8 +33974,11 @@ function initSmoothScroll() {
           scroller: scrollMain,
           start: "top top",
           scrub: 1,
-          pin: true //ease: "none"
-
+          pin: true,
+          //ease: "none"
+          onToggle: function onToggle(self) {
+            if (self.isActive) playVideo("bottleVid");
+          }
         }
       });
       tlProductAnim.to(pillL1, {
@@ -34026,6 +34055,22 @@ function initSmoothScroll() {
     }
 
     ;
+
+    if (jquery_default()(window).width() < 991) {
+      var _productAnim = jquery_default()('#productanim');
+
+      var _tlProductAnim = gsapWithCSS.timeline({
+        scrollTrigger: {
+          trigger: _productAnim,
+          scroller: scrollMain,
+          start: "-40% top",
+          onToggle: function onToggle(self) {
+            if (self.isActive) playVideo("bottleVid");
+          }
+        }
+      });
+    }
+
     var scFeature = jquery_default()('.scfeature'),
         featureHeading = jquery_default()('.scfeature .--h1 .char');
     var tlFeature = gsapWithCSS.timeline({
@@ -34240,6 +34285,10 @@ function initSmoothScroll() {
       popupSignupInner.addClass("active");
     });
     signupToggleAbout.on("click", function () {
+      popupSignup.addClass("active");
+      popupSignupInner.addClass("active");
+    });
+    featureBtn.on("click", function () {
       popupSignup.addClass("active");
       popupSignupInner.addClass("active");
     });
