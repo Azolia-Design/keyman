@@ -33751,6 +33751,7 @@ var successClose = jquery_default()('#successClose');
 var popupSignupInner = jquery_default()('#popupSignupInner');
 var popupSuccessInner = jquery_default()('#popupSuccessInner');
 var featureBtn = jquery_default()('#feaCta');
+var featureBtnAlias = document.querySelector('#feaCta');
 var aboutItem1 = jquery_default()('.about_item.--first');
 var aboutItem2 = jquery_default()('.about_item.--second');
 var aboutItem3 = jquery_default()('.about_item.--third');
@@ -33919,7 +33920,6 @@ function initSmoothScroll() {
       stagger: optAniText.stagger
     }, "-=.7");
     var productPills = jquery_default()('#productpills');
-    var rountBtn = jquery_default()('#feaCta');
     console.log(productPills.css('transform'));
     document.addEventListener('mousemove', function (event) {
       var mouseX = event.clientX;
@@ -33928,7 +33928,24 @@ function initSmoothScroll() {
       var valueX = widthToTranslate(mouseX);
       var valueY = widthToTranslate(mouseY);
       productPills.css('transform', 'translate(' + valueX + 'px,' + valueY + 'px)');
-    }); // function playVideo(el) {
+    });
+
+    document.getElementById('feaCta').onmousemove = function clickEvent(e) {
+      // e = Mouse click event.
+      var rect = e.currentTarget.getBoundingClientRect();
+      var x = e.clientX - rect.left; //x position within the element.
+
+      var y = e.clientY - rect.top; //y position within the element.
+
+      var widthToTranslate = gsapWithCSS.utils.mapRange(0, featureBtnAlias.clientWidth, -20, 20);
+      var valueX = widthToTranslate(x);
+      var valueY = widthToTranslate(y);
+      featureBtnAlias.style.transform = 'translate(' + valueX + 'px,' + valueY + 'px)';
+    };
+
+    document.getElementById('feaCta').onmouseleave = function clickEvent(e) {
+      featureBtnAlias.style.transform = 'translate(' + 0 + 'px,' + 0 + 'px)';
+    }; // function playVideo(el) {
     //     let vid = document.getElementById(el);
     //     vid.play();
     //     console.log('playing video');
@@ -33938,6 +33955,7 @@ function initSmoothScroll() {
     //     vid.pause();
     //     console.log('pausing video');
     //     };
+
 
     if (jquery_default()(window).width() >= 991) {
       var productAnim = jquery_default()('#productanim'),
