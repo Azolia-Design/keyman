@@ -33919,33 +33919,45 @@ function initSmoothScroll() {
       duration: optAniText.duration,
       stagger: optAniText.stagger
     }, "-=.7");
-    var productPills = jquery_default()('#productpills');
-    console.log(productPills.css('transform'));
-    document.addEventListener('mousemove', function (event) {
-      var mouseX = event.clientX;
-      var mouseY = event.clientY;
-      var widthToTranslate = gsapWithCSS.utils.mapRange(0, window.innerWidth, 10, -10);
-      var valueX = widthToTranslate(mouseX);
-      var valueY = widthToTranslate(mouseY);
-      productPills.css('transform', 'translate(' + valueX + 'px,' + valueY + 'px)');
-    });
 
-    document.getElementById('feaCta').onmousemove = function clickEvent(e) {
-      // e = Mouse click event.
-      var rect = e.currentTarget.getBoundingClientRect();
-      var x = e.clientX - rect.left; //x position within the element.
+    if (jquery_default()(window).width() >= 991) {
+      var productPills = jquery_default()('#productpills');
+      console.log(productPills.css('transform'));
+      document.addEventListener('mousemove', function (event) {
+        var mouseX = event.clientX;
+        var mouseY = event.clientY;
+        var widthToTranslate = gsapWithCSS.utils.mapRange(0, window.innerWidth, 10, -10);
+        var valueX = widthToTranslate(mouseX);
+        var valueY = widthToTranslate(mouseY);
+        productPills.css('transform', 'translate(' + valueX + 'px,' + valueY + 'px)');
+      });
 
-      var y = e.clientY - rect.top; //y position within the element.
+      document.getElementById('feaCta').onmousemove = function clickEvent(e) {
+        // e = Mouse click event.
+        var rect = e.currentTarget.getBoundingClientRect();
+        var x = e.clientX - rect.left; //x position within the element.
 
-      var widthToTranslate = gsapWithCSS.utils.mapRange(0, featureBtnAlias.clientWidth, -20, 20);
-      var valueX = widthToTranslate(x);
-      var valueY = widthToTranslate(y);
-      featureBtnAlias.style.transform = 'translate(' + valueX + 'px,' + valueY + 'px)';
-    };
+        var y = e.clientY - rect.top; //y position within the element.
 
-    document.getElementById('feaCta').onmouseleave = function clickEvent(e) {
-      featureBtnAlias.style.transform = 'translate(' + 0 + 'px,' + 0 + 'px)';
-    }; // function playVideo(el) {
+        var widthToTranslate = gsapWithCSS.utils.mapRange(0, featureBtnAlias.clientWidth, -20, 20);
+        var valueX = widthToTranslate(x);
+        var valueY = widthToTranslate(y);
+
+        if (jquery_default()(window).width() <= 1279) {
+          featureBtnAlias.style.transform = 'translate(calc(100% + (' + valueX + 'px)),' + valueY + 'px)';
+        } else {
+          featureBtnAlias.style.transform = 'translate(' + valueX + 'px,' + valueY + 'px)';
+        }
+      };
+
+      document.getElementById('feaCta').onmouseleave = function clickEvent(e) {
+        if (jquery_default()(window).width() <= 1279) {
+          featureBtnAlias.style.transform = 'translateX(100%)';
+        } else {
+          featureBtnAlias.style.transform = 'translate(' + 0 + 'px,' + 0 + 'px)';
+        }
+      };
+    } // function playVideo(el) {
     //     let vid = document.getElementById(el);
     //     vid.play();
     //     console.log('playing video');
