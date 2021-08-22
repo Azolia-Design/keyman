@@ -33925,33 +33925,19 @@ function initSmoothScroll() {
       var mouseX = event.clientX;
       var mouseY = event.clientY;
       var widthToTranslate = gsapWithCSS.utils.mapRange(0, window.innerWidth, 10, -10);
-      var widthToTranslateBtn = gsapWithCSS.utils.mapRange(0, window.innerWidth, -100, 100);
       var valueX = widthToTranslate(mouseX);
       var valueY = widthToTranslate(mouseY);
-      productPills.css('transform', 'translate(' + valueX + 'px,' + valueY + 'px)'); // let valueXBtn = widthToTranslateBtn(mouseX);
-      // let valueYBtn = widthToTranslateBtn(mouseY);
-      // rountBtn.on('mousemove', function(e) {
-      //     rountBtn.css('transform','translate(' + valueXBtn + 'px,' + valueYBtn + 'px)');
-      // })
-      // rountBtn.on('mouseout', function(e) {
-      //     rountBtn.css('transform','none');
-      // })
-      // rountBtn.css('transform','translate(' + valueX + 'px,' + valueY + 'px)');
-    });
-
-    function playVideo(el) {
-      var vid = document.getElementById(el);
-      vid.play();
-      console.log('playing video');
-    }
-
-    function pauseVideo(el) {
-      var vid = document.getElementById(el);
-      vid.pause();
-      console.log('pausing video');
-    }
-
-    ;
+      productPills.css('transform', 'translate(' + valueX + 'px,' + valueY + 'px)');
+    }); // function playVideo(el) {
+    //     let vid = document.getElementById(el);
+    //     vid.play();
+    //     console.log('playing video');
+    //     }
+    //     function pauseVideo(el) {
+    //     let vid = document.getElementById(el);
+    //     vid.pause();
+    //     console.log('pausing video');
+    //     };
 
     if (jquery_default()(window).width() >= 991) {
       var productAnim = jquery_default()('#productanim'),
@@ -33976,11 +33962,11 @@ function initSmoothScroll() {
           scroller: scrollMain,
           start: "top top",
           scrub: 1,
-          pin: true,
-          //ease: "none"
-          onToggle: function onToggle(self) {
-            if (self.isActive) playVideo("bottleVid");
-          }
+          pin: true //ease: "none"
+          // onToggle: self => {
+          //     if (self.isActive) playVideo("bottleVid")
+          // }
+
         }
       });
       tlProductAnim.to(pillL1, {
@@ -34057,22 +34043,6 @@ function initSmoothScroll() {
     }
 
     ;
-
-    if (jquery_default()(window).width() < 991) {
-      var _productAnim = jquery_default()('#productanim');
-
-      var _tlProductAnim = gsapWithCSS.timeline({
-        scrollTrigger: {
-          trigger: _productAnim,
-          scroller: scrollMain,
-          start: "-40% top",
-          onToggle: function onToggle(self) {
-            if (self.isActive) playVideo("bottleVid");
-          }
-        }
-      });
-    }
-
     var scFeature = jquery_default()('.scfeature'),
         featureHeading = jquery_default()('.scfeature .--h1 .char');
     var tlFeature = gsapWithCSS.timeline({
@@ -34192,7 +34162,8 @@ function initSmoothScroll() {
 
   function loadingScreen() {
     var loader = document.querySelector('.page-loading');
-    var introVideo = document.querySelector('video');
+    var introVideo = document.querySelector('#introVid');
+    var bottleVideo = document.querySelector('#bottleVid');
     gsapWithCSS.set(loader, {
       opacity: 0,
       visibility: 'hidden',
@@ -34200,6 +34171,7 @@ function initSmoothScroll() {
       onComplete: function onComplete() {
         loader.classList.add('is-loaded');
         introVideo.play();
+        bottleVideo.play();
       }
     });
   }
