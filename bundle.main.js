@@ -33707,7 +33707,6 @@ var runtime = __webpack_require__(666);
 
 
 
-
  // import Swiper JS
 
  // import imagesLoaded from 'imagesloaded';
@@ -33845,10 +33844,6 @@ function initSmoothScroll() {
     ;
     activeSection();
     gridBgLimit();
-  });
-  window.addEventListener("DOMContentLoaded", function (event) {
-    var audio = document.querySelector("audio");
-    audio.volume = 0.4; //audio.play();
   }); ////////////////////////// HOME TEXT ANIMATION //////////////
 
   function animateHome() {
@@ -33957,17 +33952,7 @@ function initSmoothScroll() {
           featureBtnAlias.style.transform = 'translate(' + 0 + 'px,' + 0 + 'px)';
         }
       };
-    } // function playVideo(el) {
-    //     let vid = document.getElementById(el);
-    //     vid.play();
-    //     console.log('playing video');
-    //     }
-    //     function pauseVideo(el) {
-    //     let vid = document.getElementById(el);
-    //     vid.pause();
-    //     console.log('pausing video');
-    //     };
-
+    }
 
     if (jquery_default()(window).width() >= 991) {
       var productAnim = jquery_default()('#productanim'),
@@ -33992,11 +33977,7 @@ function initSmoothScroll() {
           scroller: scrollMain,
           start: "top top",
           scrub: 1,
-          pin: true //ease: "none"
-          // onToggle: self => {
-          //     if (self.isActive) playVideo("bottleVid")
-          // }
-
+          pin: true
         }
       });
       tlProductAnim.to(pillL1, {
@@ -34160,6 +34141,9 @@ function initSmoothScroll() {
     });
     tlLoadingPage.to(logo, {
       opacity: 1,
+      duration: 1.2
+    }).to(logo, {
+      opacity: 1,
       duration: .6
     }).to(logo, {
       opacity: 0,
@@ -34197,7 +34181,7 @@ function initSmoothScroll() {
     gsapWithCSS.set(loader, {
       opacity: 0,
       visibility: 'hidden',
-      delay: 8,
+      delay: 9.2,
       onComplete: function onComplete() {
         loader.classList.add('is-loaded');
         introVideo.play();
@@ -34207,6 +34191,15 @@ function initSmoothScroll() {
   }
 
   ;
+  animateHero();
+  loadingScreen();
+  setTimeout(function () {
+    animateHome();
+    setTimeout(function () {
+      locoScroll.update();
+      gridBgLimit();
+    }, 100);
+  }, 8900);
   locoScroll.on('scroll', function (instance) {
     if (instance.scroll.y > nav.outerHeight() / 2) {
       nav.addClass('scroll');
@@ -34231,33 +34224,6 @@ function initSmoothScroll() {
   scrollTo();
 
   function toggles() {
-    startIntro.on("click", function (e) {
-      e.preventDefault();
-      var audio = document.querySelector("audio");
-      audio.play();
-      animateHero();
-      loadingScreen();
-      setTimeout(function () {
-        animateHome();
-        setTimeout(function () {
-          locoScroll.update();
-          gridBgLimit();
-        }, 100);
-      }, 7700);
-    });
-    soundIcon.on("click", function () {
-      var audio = document.querySelector("audio");
-
-      if (soundIcon.hasClass("disabled")) {
-        soundIcon.removeClass("disabled");
-        audio.play();
-      } else {
-        soundIcon.addClass("disabled");
-        audio.pause();
-      }
-
-      ;
-    });
     navToggle.on("click", function () {
       nav.toggleClass("active");
     });
