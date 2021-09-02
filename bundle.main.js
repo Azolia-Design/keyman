@@ -33782,587 +33782,807 @@ function loadVideoBottle() {
 ;
 loadVideoBottle(); //////////////////////// INIT SCROLL SMOOTH ///////////////////
 
-function initSmoothScroll() {
-  locoScroll = new locomotive_scroll_esm({
-    el: document.querySelector('.scrollmain'),
-    smooth: true,
-    lerp: 0.1,
-    getDirection: true,
-    reloadOnContextChange: true,
-    tablet: {
-      smooth: true
-    },
-    smartphone: {
-      smooth: false
-    },
-    "class": 'is-inview'
-  });
-  locoScroll.on("scroll", ScrollTrigger.update);
-  ScrollTrigger.scrollerProxy('.scrollmain', {
-    scrollTop: function scrollTop(value) {
-      return arguments.length ? locoScroll.scrollTo(value, 0, 0) : locoScroll.scroll.instance.scroll.y;
-    },
-    // we don't have to define a scrollLeft because we're only scrolling vertically.
-    getBoundingClientRect: function getBoundingClientRect() {
-      return {
-        top: 0,
-        left: 0,
-        width: window.innerWidth,
-        height: window.innerHeight
-      };
-    },
-    pinType: document.querySelector('.scrollmain').style.transform ? "transform" : "fixed"
-  });
-  locoScroll.on('scroll', function (instance) {
-    if (instance.scroll.y > header.outerHeight() / 2) {
-      header.addClass('scroll');
-    } else if (instance.scroll.y < header.height() / 2) {
-      header.removeClass('scroll');
-    }
-
-    function activeSection() {
-      //let intro = document.querySelector('section#intro');
-      var productTop = document.querySelector('section#product').offsetTop - 100;
-      var testimonialTop = document.querySelector('section#testimonial').offsetTop - 100;
-      var blogTop = document.querySelector('section#blog').offsetTop - 100;
-      var footerTop = document.querySelector('footer#footer').offsetTop - 100;
-      links.removeClass('active');
-
-      if (instance.scroll.y < productTop) {
-        jquery_default()('.link[href="#intro"]').addClass('active');
-      } else if (instance.scroll.y < testimonialTop) {
-        jquery_default()('.link[href="#product"]').addClass('active');
-      } else if (instance.scroll.y < blogTop) {
-        jquery_default()('.link[href="#testimonial"]').addClass('active');
-      } else if (instance.scroll.y < footerTop) {
-        jquery_default()('.link[href="#blog"]').addClass('active');
-      } else {
-        jquery_default()('.link[href="#footer"]').addClass('active');
-      }
-    }
-
-    ;
-    activeSection();
-    gridBgLimit();
-  }); ////////////////////////// HOME TEXT ANIMATION //////////////
-
-  function animateHome() {
-    var scHero = jquery_default()('.schero'),
-        heroHeading = jquery_default()('.schero .--h1 .char'),
-        heroLogosub = jquery_default()('.schero .sub-title'),
-        heroLogo = jquery_default()('.schero .logo'),
-        heroVideo = jquery_default()('.scherohome__video');
-    var tlHero = gsapWithCSS.timeline({
-      scrollTrigger: {
-        trigger: scHero,
-        scroller: scrollMain,
-        scrub: false,
-        pin: false,
-        start: 'top top',
-        end: 'bottom'
-      }
-    });
-
-    if (flagPD == false) {
-      gsapWithCSS.set(heroLogo, {
-        autoAlpha: 1
+function scriptHome() {
+  if (jquery_default()('.homepage').length) {
+    ////////////////////////// HOME TEXT ANIMATION //////////////
+    var animateHome = function animateHome() {
+      var scHero = jquery_default()('.schero'),
+          heroHeading = jquery_default()('.schero .--h1 .char'),
+          heroLogosub = jquery_default()('.schero .sub-title'),
+          heroLogo = jquery_default()('.schero .logo'),
+          heroVideo = jquery_default()('.scherohome__video');
+      var tlHero = gsapWithCSS.timeline({
+        scrollTrigger: {
+          trigger: scHero,
+          scroller: scrollMain,
+          scrub: false,
+          pin: false,
+          start: 'top top',
+          end: 'bottom'
+        }
       });
-      gsapWithCSS.set(heroHeading, {
-        autoAlpha: 1
+
+      if (flagPD == false) {
+        gsapWithCSS.set(heroLogo, {
+          autoAlpha: 1
+        });
+        gsapWithCSS.set(heroHeading, {
+          autoAlpha: 1
+        });
+        tlHero.from(heroLogo, {
+          y: optAniText.y,
+          opacity: 0,
+          duration: 1,
+          delay: .3
+        }).from(heroLogosub, {
+          y: optAniText.y,
+          opacity: 0,
+          duration: optAniText.duration
+        }, "-=.3").from(heroHeading, {
+          y: optAniText.y,
+          opacity: 0,
+          duration: optAniText.duration,
+          stagger: optAniText.stagger
+        }, "-=.6").from(heroVideo, {
+          y: optAniText.y,
+          opacity: 0,
+          duration: 1
+        }, "-=1");
+        tlHero.play();
+      }
+
+      ;
+      var scProduct = jquery_default()('#product'),
+          productLogo = jquery_default()('.scproducthome__logo'),
+          productHeading = jquery_default()('.scproduct .--h2 .char');
+      var tlProduct = gsapWithCSS.timeline({
+        scrollTrigger: {
+          trigger: scProduct,
+          scroller: scrollMain,
+          toggleActions: "play none none none",
+          start: "-60% top"
+        }
       });
-      tlHero.from(heroLogo, {
+      tlProduct.from(productLogo, {
         y: optAniText.y,
-        opacity: 0,
-        duration: 1,
-        delay: .3
-      }).from(heroLogosub, {
+        autoAlpha: 0,
+        duration: 1
+      }).from(productHeading, {
         y: optAniText.y,
-        opacity: 0,
-        duration: optAniText.duration
-      }, "-=.3").from(heroHeading, {
-        y: optAniText.y,
-        opacity: 0,
+        autoAlpha: 0,
         duration: optAniText.duration,
         stagger: optAniText.stagger
-      }, "-=.6").from(heroVideo, {
-        y: optAniText.y,
-        opacity: 0,
-        duration: 1
-      }, "-=1");
-      tlHero.play();
-    }
+      }, "-=.7");
 
-    ;
-    var scProduct = jquery_default()('#product'),
-        productLogo = jquery_default()('.scproducthome__logo'),
-        productHeading = jquery_default()('.scproduct .--h2 .char');
-    var tlProduct = gsapWithCSS.timeline({
-      scrollTrigger: {
-        trigger: scProduct,
-        scroller: scrollMain,
-        toggleActions: "play none none none",
-        start: "-60% top"
+      if (jquery_default()(window).width() >= 991) {
+        var productPills = jquery_default()('#productpills');
+        console.log(productPills.css('transform'));
+        document.addEventListener('mousemove', function (event) {
+          var mouseX = event.clientX;
+          var mouseY = event.clientY;
+          var widthToTranslate = gsapWithCSS.utils.mapRange(0, window.innerWidth, 10, -10);
+          var valueX = widthToTranslate(mouseX);
+          var valueY = widthToTranslate(mouseY);
+          productPills.css('transform', 'translate(' + valueX + 'px,' + valueY + 'px)');
+        });
+
+        document.getElementById('feaCta').onmousemove = function clickEvent(e) {
+          // e = Mouse click event.
+          var rect = e.currentTarget.getBoundingClientRect();
+          var x = e.clientX - rect.left; //x position within the element.
+
+          var y = e.clientY - rect.top; //y position within the element.
+
+          var widthToTranslate = gsapWithCSS.utils.mapRange(0, featureBtnAlias.clientWidth, -20, 20);
+          var valueX = widthToTranslate(x);
+          var valueY = widthToTranslate(y);
+
+          if (jquery_default()(window).width() <= 1279) {
+            featureBtnAlias.style.transform = 'translate(calc(100% + (' + valueX + 'px)),' + valueY + 'px)';
+          } else {
+            featureBtnAlias.style.transform = 'translate(' + valueX + 'px,' + valueY + 'px)';
+          }
+        };
+
+        document.getElementById('feaCta').onmouseleave = function clickEvent(e) {
+          if (jquery_default()(window).width() <= 1279) {
+            featureBtnAlias.style.transform = 'translateX(100%)';
+          } else {
+            featureBtnAlias.style.transform = 'translate(' + 0 + 'px,' + 0 + 'px)';
+          }
+        };
       }
-    });
-    tlProduct.from(productLogo, {
-      y: optAniText.y,
-      autoAlpha: 0,
-      duration: 1
-    }).from(productHeading, {
-      y: optAniText.y,
-      autoAlpha: 0,
-      duration: optAniText.duration,
-      stagger: optAniText.stagger
-    }, "-=.7");
 
-    if (jquery_default()(window).width() >= 991) {
-      var productPills = jquery_default()('#productpills');
-      console.log(productPills.css('transform'));
-      document.addEventListener('mousemove', function (event) {
-        var mouseX = event.clientX;
-        var mouseY = event.clientY;
-        var widthToTranslate = gsapWithCSS.utils.mapRange(0, window.innerWidth, 10, -10);
-        var valueX = widthToTranslate(mouseX);
-        var valueY = widthToTranslate(mouseY);
-        productPills.css('transform', 'translate(' + valueX + 'px,' + valueY + 'px)');
-      });
+      if (jquery_default()(window).width() >= 991) {
+        var productAnim = jquery_default()('#productanim'),
+            pillL1 = jquery_default()('#productpills .pills-box').children('.pill').eq(0),
+            pillL2 = jquery_default()('#productpills .pills-box').children('.pill').eq(1),
+            pillL3 = jquery_default()('#productpills .pills-box').children('.pill').eq(2),
+            pillL4 = jquery_default()('#productpills .pills-box').children('.pill').eq(3),
+            pillR1 = jquery_default()('#productpills .pills-box-right').children('.pill').eq(0),
+            pillR2 = jquery_default()('#productpills .pills-box-right').children('.pill').eq(1),
+            pillR3 = jquery_default()('#productpills .pills-box-right').children('.pill').eq(2),
+            pillR4 = jquery_default()('#productpills .pills-box-right').children('.pill').eq(3),
+            productFeatures = jquery_default()('#productFea'),
+            featureL1 = jquery_default()('#productFea .features-box').children('.feature-item').eq(0),
+            featureL2 = jquery_default()('#productFea .features-box').children('.feature-item').eq(1),
+            featureL3 = jquery_default()('#productFea .features-box').children('.feature-item').eq(2),
+            featureR1 = jquery_default()('#productFea .features-box.--right').children('.feature-item').eq(0),
+            featureR2 = jquery_default()('#productFea .features-box.--right').children('.feature-item').eq(1),
+            featureR3 = jquery_default()('#productFea .features-box.--right').children('.feature-item').eq(2);
+        var tlProductAnim = gsapWithCSS.timeline({
+          scrollTrigger: {
+            trigger: productAnim,
+            scroller: scrollMain,
+            start: "top top",
+            scrub: 1,
+            pin: true
+          }
+        });
+        tlProductAnim.to(pillL1, {
+          ease: "power1.inOut",
+          autoAlpha: 0,
+          duration: 1,
+          y: -280,
+          delay: 0.2
+        }, "0").to(pillL2, {
+          ease: "power1.inOut",
+          autoAlpha: 0,
+          duration: 1.2,
+          y: -330,
+          delay: 0.3
+        }, "0").to(pillL3, {
+          ease: "power1.inOut",
+          autoAlpha: 0,
+          duration: 1.1,
+          y: -350,
+          delay: 0.2
+        }, "0").to(pillL4, {
+          ease: "power1.inOut",
+          autoAlpha: 0,
+          duration: .9,
+          y: -320
+        }, "0").to(pillR1, {
+          ease: "power1.inOut",
+          autoAlpha: 0,
+          duration: .9,
+          y: -340,
+          delay: 0.5
+        }, "0").to(pillR2, {
+          ease: "power1.inOut",
+          autoAlpha: 0,
+          duration: 1,
+          y: -310,
+          delay: 0.3
+        }, "0").to(pillR3, {
+          ease: "power1.inOut",
+          autoAlpha: 0,
+          duration: 1.1,
+          y: -290,
+          delay: 0.1
+        }, "0").to(pillR4, {
+          ease: "power1.inOut",
+          autoAlpha: 0,
+          duration: 1.2,
+          y: -340
+        }, "0").from(featureL1, {
+          autoAlpha: 0,
+          duration: 1,
+          x: -300
+        }).from(featureR1, {
+          autoAlpha: 0,
+          duration: 1,
+          x: 300
+        }, "-=1").from(featureL2, {
+          autoAlpha: 0,
+          duration: 1,
+          x: -300
+        }, "-=.6").from(featureR2, {
+          autoAlpha: 0,
+          duration: 1,
+          x: 300
+        }, "-=1").from(featureL3, {
+          autoAlpha: 0,
+          duration: 1,
+          x: -300
+        }, "-=.6").from(featureR3, {
+          autoAlpha: 0,
+          duration: 1,
+          x: 300
+        }, "-=1");
+      }
 
-      document.getElementById('feaCta').onmousemove = function clickEvent(e) {
-        // e = Mouse click event.
-        var rect = e.currentTarget.getBoundingClientRect();
-        var x = e.clientX - rect.left; //x position within the element.
-
-        var y = e.clientY - rect.top; //y position within the element.
-
-        var widthToTranslate = gsapWithCSS.utils.mapRange(0, featureBtnAlias.clientWidth, -20, 20);
-        var valueX = widthToTranslate(x);
-        var valueY = widthToTranslate(y);
-
-        if (jquery_default()(window).width() <= 1279) {
-          featureBtnAlias.style.transform = 'translate(calc(100% + (' + valueX + 'px)),' + valueY + 'px)';
-        } else {
-          featureBtnAlias.style.transform = 'translate(' + valueX + 'px,' + valueY + 'px)';
-        }
-      };
-
-      document.getElementById('feaCta').onmouseleave = function clickEvent(e) {
-        if (jquery_default()(window).width() <= 1279) {
-          featureBtnAlias.style.transform = 'translateX(100%)';
-        } else {
-          featureBtnAlias.style.transform = 'translate(' + 0 + 'px,' + 0 + 'px)';
-        }
-      };
-    }
-
-    if (jquery_default()(window).width() >= 991) {
-      var productAnim = jquery_default()('#productanim'),
-          pillL1 = jquery_default()('#productpills .pills-box').children('.pill').eq(0),
-          pillL2 = jquery_default()('#productpills .pills-box').children('.pill').eq(1),
-          pillL3 = jquery_default()('#productpills .pills-box').children('.pill').eq(2),
-          pillL4 = jquery_default()('#productpills .pills-box').children('.pill').eq(3),
-          pillR1 = jquery_default()('#productpills .pills-box-right').children('.pill').eq(0),
-          pillR2 = jquery_default()('#productpills .pills-box-right').children('.pill').eq(1),
-          pillR3 = jquery_default()('#productpills .pills-box-right').children('.pill').eq(2),
-          pillR4 = jquery_default()('#productpills .pills-box-right').children('.pill').eq(3),
-          productFeatures = jquery_default()('#productFea'),
-          featureL1 = jquery_default()('#productFea .features-box').children('.feature-item').eq(0),
-          featureL2 = jquery_default()('#productFea .features-box').children('.feature-item').eq(1),
-          featureL3 = jquery_default()('#productFea .features-box').children('.feature-item').eq(2),
-          featureR1 = jquery_default()('#productFea .features-box.--right').children('.feature-item').eq(0),
-          featureR2 = jquery_default()('#productFea .features-box.--right').children('.feature-item').eq(1),
-          featureR3 = jquery_default()('#productFea .features-box.--right').children('.feature-item').eq(2);
-      var tlProductAnim = gsapWithCSS.timeline({
+      ;
+      var scFeature = jquery_default()('.scfeature'),
+          featureHeading = jquery_default()('.scfeature .--h1 .char');
+      var tlFeature = gsapWithCSS.timeline({
         scrollTrigger: {
-          trigger: productAnim,
+          trigger: scFeature,
           scroller: scrollMain,
-          start: "top top",
-          scrub: 1,
-          pin: true
+          toggleActions: "play none none none",
+          start: "-40% top"
         }
       });
-      tlProductAnim.to(pillL1, {
-        ease: "power1.inOut",
+      tlFeature.from(featureHeading, {
+        y: optAniText.y,
         autoAlpha: 0,
-        duration: 1,
-        y: -280,
-        delay: 0.2
-      }, "0").to(pillL2, {
-        ease: "power1.inOut",
+        duration: optAniText.duration,
+        stagger: optAniText.stagger
+      });
+      var scIntro = jquery_default()('.scintro'),
+          introSubHeading = jquery_default()('.scintro .--h5 .char'),
+          introHeading = jquery_default()('.scintro .--h4 .char'),
+          introBody1 = jquery_default()('.scintro .content-bodytext').children('.--text').eq(0),
+          introBody2 = jquery_default()('.scintro .content-bodytext').children('.--text').eq(1),
+          introLogo = jquery_default()('.scintro .content-logo');
+      var tlIntro = gsapWithCSS.timeline({
+        scrollTrigger: {
+          trigger: scIntro,
+          scroller: scrollMain,
+          toggleActions: "play none none none",
+          start: "-50% top"
+        }
+      });
+      tlIntro.from(introSubHeading, {
+        y: optAniText.y,
         autoAlpha: 0,
-        duration: 1.2,
-        y: -330,
-        delay: 0.3
-      }, "0").to(pillL3, {
-        ease: "power1.inOut",
+        duration: optAniText.duration,
+        stagger: optAniText.stagger
+      }).from(introHeading, {
+        y: optAniText.y,
         autoAlpha: 0,
-        duration: 1.1,
-        y: -350,
-        delay: 0.2
-      }, "0").to(pillL4, {
-        ease: "power1.inOut",
+        duration: optAniText.duration,
+        stagger: optAniText.stagger
+      }, "-=.3").from(introBody1, {
+        y: optAniText.y,
         autoAlpha: 0,
-        duration: .9,
-        y: -320
-      }, "0").to(pillR1, {
-        ease: "power1.inOut",
+        duration: 1
+      }, "-=.6").from(introBody2, {
+        y: optAniText.y,
         autoAlpha: 0,
-        duration: .9,
-        y: -340,
-        delay: 0.5
-      }, "0").to(pillR2, {
-        ease: "power1.inOut",
+        duration: 1
+      }, "-=.8").from(introLogo, {
+        y: optAniText.y,
         autoAlpha: 0,
-        duration: 1,
-        y: -310,
-        delay: 0.3
-      }, "0").to(pillR3, {
-        ease: "power1.inOut",
+        duration: .6
+      }, "-=.7");
+      var scTesti = jquery_default()('.sctestimonial'),
+          testiHeading = jquery_default()('.sctestimonial .--h2 .char');
+      var tlTesti = gsapWithCSS.timeline({
+        scrollTrigger: {
+          trigger: scTesti,
+          scroller: scrollMain,
+          toggleActions: "play none none none",
+          start: "-50% top"
+        }
+      });
+      tlTesti.from(testiHeading, {
+        y: optAniText.y,
         autoAlpha: 0,
-        duration: 1.1,
-        y: -290,
-        delay: 0.1
-      }, "0").to(pillR4, {
-        ease: "power1.inOut",
-        autoAlpha: 0,
-        duration: 1.2,
-        y: -340
-      }, "0").from(featureL1, {
-        autoAlpha: 0,
-        duration: 1,
-        x: -300
-      }).from(featureR1, {
-        autoAlpha: 0,
-        duration: 1,
-        x: 300
-      }, "-=1").from(featureL2, {
-        autoAlpha: 0,
-        duration: 1,
-        x: -300
-      }, "-=.6").from(featureR2, {
-        autoAlpha: 0,
-        duration: 1,
-        x: 300
-      }, "-=1").from(featureL3, {
-        autoAlpha: 0,
-        duration: 1,
-        x: -300
-      }, "-=.6").from(featureR3, {
-        autoAlpha: 0,
-        duration: 1,
-        x: 300
-      }, "-=1");
+        duration: optAniText.duration,
+        stagger: optAniText.stagger
+      });
+    };
+
+    var animateHero = function animateHero() {
+      var loader = document.querySelector('.page-loading');
+      var logo = document.querySelectorAll('.page-loading__logo');
+      var text = document.querySelectorAll('.page-loading__text.--first');
+      var text2 = document.querySelectorAll('.page-loading__text.--second');
+      var tlLoadingPage = gsapWithCSS.timeline({
+        scrollTrigger: {
+          trigger: loader,
+          scroller: scrollMain,
+          toggleActions: "play none none pause"
+        }
+      });
+      tlLoadingPage.to(logo, {
+        opacity: 1,
+        duration: 1.2
+      }).to(logo, {
+        opacity: 1,
+        duration: .6
+      }).to(logo, {
+        opacity: 0,
+        duration: 1.2
+      }).to(text, {
+        opacity: 1,
+        duration: 1.2
+      }).to(text, {
+        opacity: 1,
+        duration: .6
+      }).to(text, {
+        opacity: 0,
+        duration: 1.2
+      }).to(text2, {
+        opacity: 1,
+        duration: 1.2
+      }).to(text2, {
+        opacity: 1,
+        duration: .6
+      }).to(text2, {
+        opacity: 0,
+        duration: 1.2
+      }).to(loader, {
+        opacity: 0,
+        duration: 1.2
+      });
+    };
+
+    var loadingScreen = function loadingScreen() {
+      var loader = document.querySelector('.page-loading');
+      var introVideo = document.querySelector('#introVid');
+      var bottleVideo = document.querySelector('#bottleVid');
+      gsapWithCSS.set(loader, {
+        opacity: 0,
+        visibility: 'hidden',
+        delay: 9.2,
+        onComplete: function onComplete() {
+          loader.classList.add('is-loaded');
+          introVideo.play();
+          bottleVideo.play();
+        }
+      });
+    };
+
+    var scrollTo = function scrollTo() {
+      if (!locoScroll) return;
+      jquery_default()('.link').click(function (e) {
+        e.preventDefault();
+        var target = jquery_default()(this).attr('href');
+        locoScroll.scrollTo(target);
+        links.removeClass('active');
+        nav.removeClass('active');
+        jquery_default()(this).addClass('active');
+      });
+    };
+
+    var toggles = function toggles() {
+      navToggle.on("click", function () {
+        nav.toggleClass("active");
+      });
+      aboutItem1.on("click", function () {
+        popupAll.removeClass('active');
+        popup1.addClass('active');
+      });
+      aboutItem2.on("click", function () {
+        popupAll.removeClass('active');
+        popup2.addClass('active');
+      });
+      aboutItem3.on("click", function () {
+        popupAll.removeClass('active');
+        popup3.addClass('active');
+      });
+      aboutItem4.on("click", function () {
+        popupAll.removeClass('active');
+        popup4.addClass('active');
+      });
+      popupClose.on("click", function () {
+        popupAll.removeClass('active');
+      });
+      signupToggle.on("click", function () {
+        popupSignup.addClass("active");
+        popupSignupInner.addClass("active");
+      });
+      signupToggleMobile.on("click", function () {
+        popupSignup.addClass("active");
+        popupSignupInner.addClass("active");
+      });
+      signupToggleAbout.on("click", function () {
+        popupSignup.addClass("active");
+        popupSignupInner.addClass("active");
+      });
+      featureBtn.on("click", function () {
+        popupSignup.addClass("active");
+        popupSignupInner.addClass("active");
+      });
+      closeSignup.on("click", function () {
+        popupSignup.removeClass("active");
+        popupSignupInner.removeClass("active");
+      });
+      signupSubmit.on("click", function () {
+        //$(this).preventDefault()
+        //popupSignup.removeClass("active");
+        popupSignupInner.removeClass("active");
+        setTimeout(function () {
+          popupSuccess.addClass("active");
+          popupSuccessInner.addClass("active");
+        }, 300);
+      });
+      closeSuccess.on("click", function () {
+        popupSuccess.removeClass("active");
+        popupSignupInner.removeClass("active");
+        popupSignup.removeClass("active");
+        popupSuccessInner.removeClass("active");
+      });
+      successClose.on("click", function () {
+        popupSuccess.removeClass("active");
+        popupSignupInner.removeClass("active");
+        popupSignup.removeClass("active");
+        popupSuccessInner.removeClass("active");
+      });
+    }; ////////////////////////// SPLITTING TEXT //////////////
+
+
+    var splittingText = function splittingText() {
+      if (hasScrollSmooth == true && flagPD == false) {
+        splitting_default()();
+      }
+    }; //////////////////////// GRID BG LIMIT ////////////////////////
+
+
+    var gridBgLimit = function gridBgLimit() {
+      var gridsWrapper = document.querySelectorAll('.wrapper__background .grid-line');
+      var grids = document.querySelectorAll('.wrapper__background .grid-line .grid');
+      var scHero = document.querySelector('.scherohome');
+      var scAbout = document.querySelector('.scabouthome');
+      var scProduct = document.querySelector('.scproducthome');
+      var heightLimit = scHero.offsetHeight + scAbout.offsetHeight + scProduct.offsetHeight + "px";
+      console.log(heightLimit);
+
+      for (var i = 0; i < grids.length; i++) {
+        grids[i].style.height = heightLimit;
+      }
+
+      ;
+    }; //////////////////////// TESTIMONIAL SWIPER ////////////////////////
+
+
+    var initSwiper = function initSwiper() {
+      var swiper = new core_class('.swiper-container', {
+        parallax: true,
+        effect: 'fade',
+        loop: true,
+        fadeEffect: {
+          crossFade: true
+        },
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: true
+        },
+        speed: 1000,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        }
+      });
+      swiper.init();
+    };
+
+    locoScroll = new locomotive_scroll_esm({
+      el: document.querySelector('.scrollmain'),
+      smooth: true,
+      lerp: 0.1,
+      getDirection: true,
+      reloadOnContextChange: true,
+      tablet: {
+        smooth: true
+      },
+      smartphone: {
+        smooth: false
+      },
+      "class": 'is-inview'
+    });
+    locoScroll.on("scroll", ScrollTrigger.update);
+    ScrollTrigger.scrollerProxy('.scrollmain', {
+      scrollTop: function scrollTop(value) {
+        return arguments.length ? locoScroll.scrollTo(value, 0, 0) : locoScroll.scroll.instance.scroll.y;
+      },
+      // we don't have to define a scrollLeft because we're only scrolling vertically.
+      getBoundingClientRect: function getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight
+        };
+      },
+      pinType: document.querySelector('.scrollmain').style.transform ? "transform" : "fixed"
+    });
+    locoScroll.on('scroll', function (instance) {
+      if (instance.scroll.y > header.outerHeight() / 2) {
+        header.addClass('scroll');
+      } else if (instance.scroll.y < header.height() / 2) {
+        header.removeClass('scroll');
+      }
+
+      function activeSection() {
+        //let intro = document.querySelector('section#intro');
+        var productTop = document.querySelector('section#product').offsetTop - 100;
+        var testimonialTop = document.querySelector('section#testimonial').offsetTop - 100;
+        var blogTop = document.querySelector('section#blog').offsetTop - 100;
+        var footerTop = document.querySelector('footer#footer').offsetTop - 100;
+        links.removeClass('active');
+
+        if (instance.scroll.y < productTop) {
+          jquery_default()('.link[href="#intro"]').addClass('active');
+        } else if (instance.scroll.y < testimonialTop) {
+          jquery_default()('.link[href="#product"]').addClass('active');
+        } else if (instance.scroll.y < blogTop) {
+          jquery_default()('.link[href="#testimonial"]').addClass('active');
+        } else if (instance.scroll.y < footerTop) {
+          jquery_default()('.link[href="#blog"]').addClass('active');
+        } else {
+          jquery_default()('.link[href="#footer"]').addClass('active');
+        }
+      }
+
+      ;
+      activeSection();
+      gridBgLimit();
+    });
+    ;
+    ;
+    ;
+    animateHero();
+    loadingScreen();
+    setTimeout(function () {
+      animateHome();
+      setTimeout(function () {
+        locoScroll.update();
+        gridBgLimit();
+      }, 100);
+    }, 8900);
+    locoScroll.on('scroll', function (instance) {
+      if (instance.scroll.y > nav.outerHeight() / 2) {
+        nav.addClass('scroll');
+      } else if (instance.scroll.y < nav.height() / 2) {
+        nav.removeClass('scroll');
+      }
+    });
+    ;
+    scrollTo();
+    toggles();
+    splittingText();
+    ;
+    ;
+    jquery_default()(window).on("load resize", function () {
+      gridBgLimit();
+      initSwiper();
+    }).resize(); // each time the window updates, we should refresh ScrollTrigger and then update LocomotiveScroll. 
+
+    ScrollTrigger.addEventListener("refresh", function () {
+      return locoScroll.update();
+    }); // after everything is set up, refresh() ScrollTrigger and update LocomotiveScroll because padding may have been added for pinning, etc.
+
+    ScrollTrigger.refresh();
+
+    if (isMobile()) {
+      document.body.classList.add('is-mobile');
     }
 
     ;
-    var scFeature = jquery_default()('.scfeature'),
-        featureHeading = jquery_default()('.scfeature .--h1 .char');
-    var tlFeature = gsapWithCSS.timeline({
-      scrollTrigger: {
-        trigger: scFeature,
-        scroller: scrollMain,
-        toggleActions: "play none none none",
-        start: "-40% top"
-      }
-    });
-    tlFeature.from(featureHeading, {
-      y: optAniText.y,
-      autoAlpha: 0,
-      duration: optAniText.duration,
-      stagger: optAniText.stagger
-    });
-    var scIntro = jquery_default()('.scintro'),
-        introSubHeading = jquery_default()('.scintro .--h5 .char'),
-        introHeading = jquery_default()('.scintro .--h4 .char'),
-        introBody1 = jquery_default()('.scintro .content-bodytext').children('.--text').eq(0),
-        introBody2 = jquery_default()('.scintro .content-bodytext').children('.--text').eq(1),
-        introLogo = jquery_default()('.scintro .content-logo');
-    var tlIntro = gsapWithCSS.timeline({
-      scrollTrigger: {
-        trigger: scIntro,
-        scroller: scrollMain,
-        toggleActions: "play none none none",
-        start: "-50% top"
-      }
-    });
-    tlIntro.from(introSubHeading, {
-      y: optAniText.y,
-      autoAlpha: 0,
-      duration: optAniText.duration,
-      stagger: optAniText.stagger
-    }).from(introHeading, {
-      y: optAniText.y,
-      autoAlpha: 0,
-      duration: optAniText.duration,
-      stagger: optAniText.stagger
-    }, "-=.3").from(introBody1, {
-      y: optAniText.y,
-      autoAlpha: 0,
-      duration: 1
-    }, "-=.6").from(introBody2, {
-      y: optAniText.y,
-      autoAlpha: 0,
-      duration: 1
-    }, "-=.8").from(introLogo, {
-      y: optAniText.y,
-      autoAlpha: 0,
-      duration: .6
-    }, "-=.7");
-    var scTesti = jquery_default()('.sctestimonial'),
-        testiHeading = jquery_default()('.sctestimonial .--h2 .char');
-    var tlTesti = gsapWithCSS.timeline({
-      scrollTrigger: {
-        trigger: scTesti,
-        scroller: scrollMain,
-        toggleActions: "play none none none",
-        start: "-50% top"
-      }
-    });
-    tlTesti.from(testiHeading, {
-      y: optAniText.y,
-      autoAlpha: 0,
-      duration: optAniText.duration,
-      stagger: optAniText.stagger
-    });
   }
-
-  ;
-
-  function animateHero() {
-    var loader = document.querySelector('.page-loading');
-    var logo = document.querySelectorAll('.page-loading__logo');
-    var text = document.querySelectorAll('.page-loading__text.--first');
-    var text2 = document.querySelectorAll('.page-loading__text.--second');
-    var tlLoadingPage = gsapWithCSS.timeline({
-      scrollTrigger: {
-        trigger: loader,
-        scroller: scrollMain,
-        toggleActions: "play none none pause"
-      }
-    });
-    tlLoadingPage.to(logo, {
-      opacity: 1,
-      duration: 1.2
-    }).to(logo, {
-      opacity: 1,
-      duration: .6
-    }).to(logo, {
-      opacity: 0,
-      duration: 1.2
-    }).to(text, {
-      opacity: 1,
-      duration: 1.2
-    }).to(text, {
-      opacity: 1,
-      duration: .6
-    }).to(text, {
-      opacity: 0,
-      duration: 1.2
-    }).to(text2, {
-      opacity: 1,
-      duration: 1.2
-    }).to(text2, {
-      opacity: 1,
-      duration: .6
-    }).to(text2, {
-      opacity: 0,
-      duration: 1.2
-    }).to(loader, {
-      opacity: 0,
-      duration: 1.2
-    });
-  }
-
-  ;
-
-  function loadingScreen() {
-    var loader = document.querySelector('.page-loading');
-    var introVideo = document.querySelector('#introVid');
-    var bottleVideo = document.querySelector('#bottleVid');
-    gsapWithCSS.set(loader, {
-      opacity: 0,
-      visibility: 'hidden',
-      delay: 9.2,
-      onComplete: function onComplete() {
-        loader.classList.add('is-loaded');
-        introVideo.play();
-        bottleVideo.play();
-      }
-    });
-  }
-
-  ;
-  animateHero();
-  loadingScreen();
-  setTimeout(function () {
-    animateHome();
-    setTimeout(function () {
-      locoScroll.update();
-      gridBgLimit();
-    }, 100);
-  }, 8900);
-  locoScroll.on('scroll', function (instance) {
-    if (instance.scroll.y > nav.outerHeight() / 2) {
-      nav.addClass('scroll');
-    } else if (instance.scroll.y < nav.height() / 2) {
-      nav.removeClass('scroll');
-    }
-  });
-
-  function scrollTo() {
-    if (!locoScroll) return;
-    jquery_default()('.link').click(function (e) {
-      e.preventDefault();
-      var target = jquery_default()(this).attr('href');
-      locoScroll.scrollTo(target);
-      links.removeClass('active');
-      nav.removeClass('active');
-      jquery_default()(this).addClass('active');
-    });
-  }
-
-  ;
-  scrollTo();
-
-  function toggles() {
-    navToggle.on("click", function () {
-      nav.toggleClass("active");
-    });
-    aboutItem1.on("click", function () {
-      popupAll.removeClass('active');
-      popup1.addClass('active');
-    });
-    aboutItem2.on("click", function () {
-      popupAll.removeClass('active');
-      popup2.addClass('active');
-    });
-    aboutItem3.on("click", function () {
-      popupAll.removeClass('active');
-      popup3.addClass('active');
-    });
-    aboutItem4.on("click", function () {
-      popupAll.removeClass('active');
-      popup4.addClass('active');
-    });
-    popupClose.on("click", function () {
-      popupAll.removeClass('active');
-    });
-    signupToggle.on("click", function () {
-      popupSignup.addClass("active");
-      popupSignupInner.addClass("active");
-    });
-    signupToggleMobile.on("click", function () {
-      popupSignup.addClass("active");
-      popupSignupInner.addClass("active");
-    });
-    signupToggleAbout.on("click", function () {
-      popupSignup.addClass("active");
-      popupSignupInner.addClass("active");
-    });
-    featureBtn.on("click", function () {
-      popupSignup.addClass("active");
-      popupSignupInner.addClass("active");
-    });
-    closeSignup.on("click", function () {
-      popupSignup.removeClass("active");
-      popupSignupInner.removeClass("active");
-    });
-    signupSubmit.on("click", function () {
-      //$(this).preventDefault()
-      //popupSignup.removeClass("active");
-      popupSignupInner.removeClass("active");
-      setTimeout(function () {
-        popupSuccess.addClass("active");
-        popupSuccessInner.addClass("active");
-      }, 300);
-    });
-    closeSuccess.on("click", function () {
-      popupSuccess.removeClass("active");
-      popupSignupInner.removeClass("active");
-      popupSignup.removeClass("active");
-      popupSuccessInner.removeClass("active");
-    });
-    successClose.on("click", function () {
-      popupSuccess.removeClass("active");
-      popupSignupInner.removeClass("active");
-      popupSignup.removeClass("active");
-      popupSuccessInner.removeClass("active");
-    });
-  }
-
-  toggles();
 }
 
 ;
-initSmoothScroll(); ////////////////////////// SPLITTING TEXT //////////////
+scriptHome();
 
-function splittingText() {
-  if (hasScrollSmooth == true && flagPD == false) {
-    splitting_default()();
-  }
-}
+function scriptBlogDetail() {
+  if (jquery_default()('.blogdetailpage').length) {
+    var toggles = function toggles() {
+      navToggle.on("click", function () {
+        nav.toggleClass("active");
+      });
+      signupToggle.on("click", function () {
+        popupSignup.addClass("active");
+        popupSignupInner.addClass("active");
+      });
+      signupToggleMobile.on("click", function () {
+        popupSignup.addClass("active");
+        popupSignupInner.addClass("active");
+      });
+      signupToggleAbout.on("click", function () {
+        popupSignup.addClass("active");
+        popupSignupInner.addClass("active");
+      });
+      featureBtn.on("click", function () {
+        popupSignup.addClass("active");
+        popupSignupInner.addClass("active");
+      });
+      closeSignup.on("click", function () {
+        popupSignup.removeClass("active");
+        popupSignupInner.removeClass("active");
+      });
+      signupSubmit.on("click", function () {
+        //$(this).preventDefault()
+        //popupSignup.removeClass("active");
+        popupSignupInner.removeClass("active");
+        setTimeout(function () {
+          popupSuccess.addClass("active");
+          popupSuccessInner.addClass("active");
+        }, 300);
+      });
+      closeSuccess.on("click", function () {
+        popupSuccess.removeClass("active");
+        popupSignupInner.removeClass("active");
+        popupSignup.removeClass("active");
+        popupSuccessInner.removeClass("active");
+      });
+      successClose.on("click", function () {
+        popupSuccess.removeClass("active");
+        popupSignupInner.removeClass("active");
+        popupSignup.removeClass("active");
+        popupSuccessInner.removeClass("active");
+      });
+    };
 
-splittingText(); //////////////////////// GRID BG LIMIT ////////////////////////
+    locoScroll = new locomotive_scroll_esm({
+      el: document.querySelector('.scrollmain'),
+      smooth: true,
+      lerp: 0.1,
+      getDirection: true,
+      reloadOnContextChange: true,
+      tablet: {
+        smooth: true
+      },
+      smartphone: {
+        smooth: false
+      }
+    });
+    locoScroll.on("scroll", ScrollTrigger.update);
+    ScrollTrigger.scrollerProxy('.scrollmain', {
+      scrollTop: function scrollTop(value) {
+        return arguments.length ? locoScroll.scrollTo(value, 0, 0) : locoScroll.scroll.instance.scroll.y;
+      },
+      // we don't have to define a scrollLeft because we're only scrolling vertically.
+      getBoundingClientRect: function getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight
+        };
+      },
+      pinType: document.querySelector('.scrollmain').style.transform ? "transform" : "fixed"
+    });
+    locoScroll.on('scroll', function (instance) {
+      if (instance.scroll.y > header.outerHeight() / 2) {
+        header.addClass('scroll');
+      } else if (instance.scroll.y < header.height() / 2) {
+        header.removeClass('scroll');
+      }
+    });
+    locoScroll.on('scroll', function (instance) {
+      if (instance.scroll.y > nav.outerHeight() / 2) {
+        nav.addClass('scroll');
+      } else if (instance.scroll.y < nav.height() / 2) {
+        nav.removeClass('scroll');
+      }
+    });
+    toggles(); // each time the window updates, we should refresh ScrollTrigger and then update LocomotiveScroll. 
 
-function gridBgLimit() {
-  var gridsWrapper = document.querySelectorAll('.wrapper__background .grid-line');
-  var grids = document.querySelectorAll('.wrapper__background .grid-line .grid');
-  var scHero = document.querySelector('.scherohome');
-  var scAbout = document.querySelector('.scabouthome');
-  var scProduct = document.querySelector('.scproducthome');
-  var heightLimit = scHero.offsetHeight + scAbout.offsetHeight + scProduct.offsetHeight + "px";
-  console.log(heightLimit);
+    ScrollTrigger.addEventListener("refresh", function () {
+      return locoScroll.update();
+    }); // after everything is set up, refresh() ScrollTrigger and update LocomotiveScroll because padding may have been added for pinning, etc.
 
-  for (var i = 0; i < grids.length; i++) {
-    grids[i].style.height = heightLimit;
-  }
+    ScrollTrigger.refresh();
 
-  ;
-}
-
-; //////////////////////// TESTIMONIAL SWIPER ////////////////////////
-
-function initSwiper() {
-  var swiper = new core_class('.swiper-container', {
-    parallax: true,
-    effect: 'fade',
-    loop: true,
-    fadeEffect: {
-      crossFade: true
-    },
-    autoplay: {
-      delay: 2500,
-      disableOnInteraction: true
-    },
-    speed: 1000,
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev'
+    if (isMobile()) {
+      document.body.classList.add('is-mobile');
     }
-  });
-  swiper.init();
+
+    ;
+  }
 }
 
 ;
-jquery_default()(window).on("load resize", function () {
-  gridBgLimit();
-  initSwiper();
-}).resize(); // each time the window updates, we should refresh ScrollTrigger and then update LocomotiveScroll. 
+scriptBlogDetail();
 
-ScrollTrigger.addEventListener("refresh", function () {
-  return locoScroll.update();
-}); // after everything is set up, refresh() ScrollTrigger and update LocomotiveScroll because padding may have been added for pinning, etc.
+function scriptBlogs() {
+  if (jquery_default()('.blogspage').length) {
+    var toggles = function toggles() {
+      navToggle.on("click", function () {
+        nav.toggleClass("active");
+      });
+      signupToggle.on("click", function () {
+        popupSignup.addClass("active");
+        popupSignupInner.addClass("active");
+      });
+      signupToggleMobile.on("click", function () {
+        popupSignup.addClass("active");
+        popupSignupInner.addClass("active");
+      });
+      signupToggleAbout.on("click", function () {
+        popupSignup.addClass("active");
+        popupSignupInner.addClass("active");
+      });
+      featureBtn.on("click", function () {
+        popupSignup.addClass("active");
+        popupSignupInner.addClass("active");
+      });
+      closeSignup.on("click", function () {
+        popupSignup.removeClass("active");
+        popupSignupInner.removeClass("active");
+      });
+      signupSubmit.on("click", function () {
+        //$(this).preventDefault()
+        //popupSignup.removeClass("active");
+        popupSignupInner.removeClass("active");
+        setTimeout(function () {
+          popupSuccess.addClass("active");
+          popupSuccessInner.addClass("active");
+        }, 300);
+      });
+      closeSuccess.on("click", function () {
+        popupSuccess.removeClass("active");
+        popupSignupInner.removeClass("active");
+        popupSignup.removeClass("active");
+        popupSuccessInner.removeClass("active");
+      });
+      successClose.on("click", function () {
+        popupSuccess.removeClass("active");
+        popupSignupInner.removeClass("active");
+        popupSignup.removeClass("active");
+        popupSuccessInner.removeClass("active");
+      });
+    };
 
-ScrollTrigger.refresh();
+    locoScroll = new locomotive_scroll_esm({
+      el: document.querySelector('.scrollmain'),
+      smooth: true,
+      lerp: 0.1,
+      getDirection: true,
+      reloadOnContextChange: true,
+      tablet: {
+        smooth: true
+      },
+      smartphone: {
+        smooth: false
+      }
+    });
+    locoScroll.on("scroll", ScrollTrigger.update);
+    ScrollTrigger.scrollerProxy('.scrollmain', {
+      scrollTop: function scrollTop(value) {
+        return arguments.length ? locoScroll.scrollTo(value, 0, 0) : locoScroll.scroll.instance.scroll.y;
+      },
+      // we don't have to define a scrollLeft because we're only scrolling vertically.
+      getBoundingClientRect: function getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight
+        };
+      },
+      pinType: document.querySelector('.scrollmain').style.transform ? "transform" : "fixed"
+    });
+    locoScroll.on('scroll', function (instance) {
+      if (instance.scroll.y > header.outerHeight() / 2) {
+        header.addClass('scroll');
+      } else if (instance.scroll.y < header.height() / 2) {
+        header.removeClass('scroll');
+      }
+    });
+    locoScroll.on('scroll', function (instance) {
+      if (instance.scroll.y > nav.outerHeight() / 2) {
+        nav.addClass('scroll');
+      } else if (instance.scroll.y < nav.height() / 2) {
+        nav.removeClass('scroll');
+      }
+    });
+    toggles(); // each time the window updates, we should refresh ScrollTrigger and then update LocomotiveScroll. 
 
-if (isMobile()) {
-  document.body.classList.add('is-mobile');
+    ScrollTrigger.addEventListener("refresh", function () {
+      return locoScroll.update();
+    }); // after everything is set up, refresh() ScrollTrigger and update LocomotiveScroll because padding may have been added for pinning, etc.
+
+    ScrollTrigger.refresh();
+
+    if (isMobile()) {
+      document.body.classList.add('is-mobile');
+    }
+
+    ;
+  }
 }
 
-; //////////////////////// CUSTOM HOVER BUTTON ////////////////////////
+;
+scriptBlogs();
 })();
 
 /******/ })()
