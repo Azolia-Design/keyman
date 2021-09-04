@@ -1,0 +1,22 @@
+<svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+<ellipse rx="9.69782" ry="19.8983" transform="matrix(0.867493 0.497449 -0.502555 0.864545 26.341 26)" stroke="#93815D" stroke-width="2"/>
+<line x1="1" y1="-1" x2="3.56368" y2="-1" transform="matrix(0.867493 0.497449 -0.502555 0.864545 36.8659 34.0015)" stroke="#93815D" stroke-width="2" stroke-linecap="round"/>
+<line x1="1" y1="-1" x2="3.55981" y2="-1" transform="matrix(0.501273 0.862339 -0.869709 0.49872 24.9069 45.4937)" stroke="#93815D" stroke-width="2" stroke-linecap="round"/>
+<line x1="1" y1="-1" x2="3.56273" y2="-1" transform="matrix(0.715806 0.696268 -0.703119 0.713073 31.8762 40.3149)" stroke="#93815D" stroke-width="2" stroke-linecap="round"/>
+<line x1="1" y1="-1" x2="3.55981" y2="-1" transform="matrix(1.00255 2.88535e-09 -1.20856e-08 -0.997439 42.6212 15.0198)" stroke="#93815D" stroke-width="2" stroke-linecap="round"/>
+<line x1="1" y1="-1" x2="3.56273" y2="-1" transform="matrix(0.965008 0.267565 0.270198 -0.961324 41.5905 23.6035)" stroke="#93815D" stroke-width="2" stroke-linecap="round"/>
+<line x1="1" y1="-1" x2="3.56368" y2="-1" transform="matrix(-0.867493 -0.497449 -0.502555 0.864545 14.1018 20.9475)" stroke="#93815D" stroke-width="2" stroke-linecap="round"/>
+<line x1="1" y1="-1" x2="3.55981" y2="-1" transform="matrix(-1.00255 -2.88535e-09 1.20856e-08 0.997439 10.0608 36.9802)" stroke="#93815D" stroke-width="2" stroke-linecap="round"/>
+<line x1="1" y1="-1" x2="3.56273" y2="-1" transform="matrix(-0.965008 -0.267565 -0.270198 0.961324 11.0916 28.3962)" stroke="#93815D" stroke-width="2" stroke-linecap="round"/>
+<line x1="1" y1="-1" x2="3.55981" y2="-1" transform="matrix(-0.501273 -0.862339 0.869709 -0.49872 27.7751 6.50635)" stroke="#93815D" stroke-width="2" stroke-linecap="round"/>
+<line x1="1" y1="-1" x2="3.56273" y2="-1" transform="matrix(-0.715806 -0.696268 0.703119 -0.713073 20.8059 11.6848)" stroke="#93815D" stroke-width="2" stroke-linecap="round"/>
+<ellipse rx="1.14092" ry="1.13704" transform="matrix(0.867493 0.497449 -0.502555 0.864545 27.1627 16.6409)" fill="#93815D"/>
+<ellipse rx="1.14092" ry="1.13704" transform="matrix(0.867493 0.497449 -0.502555 0.864545 33.4072 14.979)" fill="#93815D"/>
+<ellipse rx="1.14092" ry="1.13704" transform="matrix(0.867493 0.497449 -0.502555 0.864545 32.9479 22.5796)" fill="#93815D"/>
+<ellipse rx="1.14092" ry="1.13704" transform="matrix(0.867493 0.497449 -0.502555 0.864545 27.8051 31.4268)" fill="#93815D"/>
+<ellipse rx="1.14092" ry="1.13704" transform="matrix(0.867493 0.497449 -0.502555 0.864545 22.0198 25.4881)" fill="#93815D"/>
+<ellipse rx="1.14092" ry="1.13704" transform="matrix(0.867493 0.497449 -0.502555 0.864545 21.1421 31.5384)" fill="#93815D"/>
+<ellipse rx="1.14092" ry="1.13704" transform="matrix(0.867493 0.497449 -0.502555 0.864545 27.6929 24.8091)" fill="#93815D"/>
+<ellipse rx="1.14092" ry="1.13704" transform="matrix(0.867493 0.497449 -0.502555 0.864545 24.3765 37.325)" fill="#93815D"/>
+<ellipse rx="1.14092" ry="1.13704" transform="matrix(0.867493 0.497449 -0.502555 0.864545 18.1319 38.9869)" fill="#93815D"/>
+</svg>
