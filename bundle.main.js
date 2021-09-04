@@ -33751,6 +33751,9 @@ var popupSignupInner = jquery_default()('#popupSignupInner');
 var popupSuccessInner = jquery_default()('#popupSuccessInner');
 var featureBtn = jquery_default()('#feaCta');
 var featureBtnAlias = document.querySelector('#feaCta');
+var moreInfo = jquery_default()('#moreInfo');
+var popupMoreInfo = jquery_default()('#popupMoreInfo');
+var closeMoreInfo = jquery_default()('#closeMoreInfo');
 var aboutItem1 = jquery_default()('.about_item.--first');
 var aboutItem2 = jquery_default()('.about_item.--second');
 var aboutItem3 = jquery_default()('.about_item.--third');
@@ -34200,6 +34203,12 @@ function scriptHome() {
         popupSignupInner.removeClass("active");
         popupSignup.removeClass("active");
         popupSuccessInner.removeClass("active");
+      });
+      moreInfo.on("click", function () {
+        popupMoreInfo.addClass("active");
+      });
+      closeMoreInfo.on("click", function () {
+        popupMoreInfo.removeClass("active");
       });
     }; ////////////////////////// SPLITTING TEXT //////////////
 
