@@ -33733,9 +33733,10 @@ var hasScrollSmooth = true,
 var locoScroll;
 var scrollMain = jquery_default()('.scrollmain');
 var header = jquery_default()('header');
-var links = jquery_default()('.menu li .link');
-var startIntro = jquery_default()('#startIntro');
-var soundIcon = jquery_default()('.sound-icon');
+var links = jquery_default()('.menu li .link'); //let startIntro = $('#startIntro');
+
+var soundIcon = jquery_default()('#soundIcon');
+var introVid = document.getElementById("introVid");
 var navToggle = jquery_default()('#navToggle');
 var nav = jquery_default()('nav');
 var signupToggle = jquery_default()('#signupToggle');
@@ -34141,6 +34142,10 @@ function scriptHome() {
     };
 
     var toggles = function toggles() {
+      soundIcon.click(function () {
+        soundIcon.toggleClass("is-muted");
+        introVid.muted = !introVid.muted;
+      });
       navToggle.on("click", function () {
         nav.toggleClass("active");
       });
